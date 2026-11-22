@@ -1,344 +1,303 @@
-import "./Home.css";
 import { Link } from "react-router-dom";
+import Footer from "../components/Footer";
+import "./Home.css";
+
 function Home() {
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+
   return (
-    <div className="home">
-
-      {/* Navbar */}
-      <nav className="navbar">
-        <div className="logo">
-          <div className="logo-icon">M</div>
-          <div>
-            <h2>Matchify</h2>
-            <span>Your Resume. Real Opportunities.</span>
+    <div className="home-page">
+      {/* ================= TOP NAVBAR ================= */}
+      <nav className="home-navbar">
+        <Link to="/" className="home-logo">
+          <div className="home-logo-badge">AI</div>
+          <div className="home-logo-text">
+            <span className="brand-title">CareerMatch</span>
+            <span className="brand-subtitle">AI Resume Platform</span>
           </div>
-        </div>
+        </Link>
 
-        <div className="nav-links">
-          <a href="#home" className="active">Home</a>
+        <div className="home-nav-links">
           <a href="#features">Features</a>
           <a href="#how-it-works">How It Works</a>
-          <a href="#about">About</a>
+          <a
+            href="#about"
+            onClick={(e) => {
+              e.preventDefault();
+              document.getElementById("features")?.scrollIntoView({ behavior: "smooth" });
+            }}
+          >
+            About
+          </a>
         </div>
 
-        <div className="nav-buttons">
-          <button className="login-btn">Sign In</button>
-          <Link to="/signup" className="primary-btn">
-            Get Started
+        <div className="home-nav-actions">
+          {user && (
+            <Link to="/dashboard" className="home-btn-ghost" style={{ fontWeight: 600 }}>
+              Dashboard
             </Link>
+          )}
+          <Link to="/login" className="home-btn-ghost">
+            Sign In
+          </Link>
+          <Link to="/signup" className="home-btn-primary">
+            Sign Up <span>→</span>
+          </Link>
         </div>
       </nav>
 
-      {/* Hero Section */}
-      <section className="hero" id="home">
-
-        <div className="hero-content">
-
-          <div className="badge">
-            ✨ AI-Powered Career Platform
-          </div>
-
-          <h1>
-            Turn Your Resume Into
-            <span> Real Opportunities.</span>
-          </h1>
-
-          <p>
-            Upload your resume, let AI understand your skills,
-            discover matching jobs, identify skill gaps and
-            get personalized career recommendations.
-          </p>
-
-          <div className="hero-buttons">
-            <button className="primary-btn large-btn">
-              Upload Resume <span>→</span>
-            </button>
-
-            <button className="secondary-btn">
-              <span>⌕</span> Explore Jobs
-            </button>
-          </div>
-
-          <div className="benefits">
-            <span>✓ AI Resume Analysis</span>
-            <span>✓ Smart Job Matching</span>
-            <span>✓ Skill Gap Insights</span>
-          </div>
-
-        </div>
-
-        {/* Dashboard Preview */}
-        <div className="hero-preview">
-
-          <div className="floating-card card-top">
-            📄 Resume Analysis
-          </div>
-
-          <div className="dashboard-card">
-
-            <div className="dashboard-header">
-              <div>
-                <small>Resume Match Result</small>
-                <h3>Software Engineer</h3>
-              </div>
-
-              <span className="details">View Details →</span>
+      {/* ================= HERO SECTION ================= */}
+      <section className="home-hero" id="home">
+        <div className="hero-container">
+          <div className="hero-left">
+            <div className="hero-badge">
+              <span className="badge-sparkle">✨</span>
+              <span>AI-Powered Career & Resume Platform</span>
             </div>
 
-            <div className="match-area">
+            <h1 className="hero-title">
+              Turn Your Resume Into <br />
+              <span className="gradient-text">Real Career Opportunities.</span>
+            </h1>
 
-              <div className="score-circle">
-                <strong>86%</strong>
-                <small>Match</small>
+            <p className="hero-description">
+              Upload your resume for instant AI scoring, pinpoint high-priority skill gaps for top roles, and practice personalized technical & HR mock interviews with real-time feedback.
+            </p>
+
+            <div className="hero-cta-group">
+              <Link to="/resume-analyzer" className="home-btn-primary large-cta">
+                <span>📄 Analyze Your Resume</span>
+                <span className="btn-arrow">→</span>
+              </Link>
+
+              <Link to="/interview-prep" className="home-btn-outline large-cta">
+                <span>🎯 Practice Interview</span>
+              </Link>
+            </div>
+
+            <div className="hero-proof-strip">
+              <div className="proof-item">
+                <span className="proof-check">✓</span>
+                <span>Cloudinary PDF Storage</span>
               </div>
+              <div className="proof-item">
+                <span className="proof-check">✓</span>
+                <span>98% ATS Skill Matching</span>
+              </div>
+              <div className="proof-item">
+                <span className="proof-check">✓</span>
+                <span>AI Interview Coaching</span>
+              </div>
+            </div>
+          </div>
 
-              <div className="job-info">
-                <h3>Software Engineer</h3>
-                <p>Full Stack Development</p>
-
-                <div className="status">
-                  <span>Good Match</span>
-                  <span>Relevant Skills</span>
+          {/* Hero Visual Interactive Card */}
+          <div className="hero-right">
+            <div className="hero-card-stack">
+              {/* Floating Top Badge */}
+              <div className="floating-badge badge-top">
+                <span className="badge-icon">⚡</span>
+                <div>
+                  <strong>AI Match Rate: 92%</strong>
+                  <span>Software Engineer Target</span>
                 </div>
               </div>
 
-            </div>
+              {/* Main Dashboard Preview Card */}
+              <div className="hero-preview-card">
+                <div className="card-header-row">
+                  <div className="user-profile-summary">
+                    <div className="avatar-chip">AI</div>
+                    <div>
+                      <strong>Senior / Full Stack Candidate</strong>
+                      <small>sample_resume.pdf • Cloudinary Verified</small>
+                    </div>
+                  </div>
+                  <span className="status-pill-green">ATS Ready</span>
+                </div>
 
-            <div className="skills-section">
-              <h4>Matched Skills</h4>
+                {/* Score Dial Row */}
+                <div className="preview-score-row">
+                  <div className="preview-score-circle">
+                    <span className="circle-score">92</span>
+                    <span className="circle-label">Score</span>
+                  </div>
 
-              <div className="skills">
-                <span>Java</span>
-                <span>React</span>
-                <span>Node.js</span>
-                <span>MongoDB</span>
-                <span>Git</span>
+                  <div className="preview-score-info">
+                    <h4>Strong Technical Profile</h4>
+                    <p>Matches 8 out of 9 core requirements for MERN & Full Stack roles.</p>
+                  </div>
+                </div>
+
+                {/* Skills Pill Cloud */}
+                <div className="preview-skills-block">
+                  <span className="preview-section-title">Verified Skills:</span>
+                  <div className="pill-wrap">
+                    <span className="skill-pill-green">Java</span>
+                    <span className="skill-pill-green">React</span>
+                    <span className="skill-pill-green">Node.js</span>
+                    <span className="skill-pill-green">SQL</span>
+                    <span className="skill-pill-green">MongoDB</span>
+                    <span className="skill-pill-green">REST API</span>
+                  </div>
+                </div>
+
+                {/* Interview Preview Snippet */}
+                <div className="preview-interview-box">
+                  <div className="interview-preview-header">
+                    <span className="interview-badge">🎯 Mock Interview Question</span>
+                    <span className="interview-score">Score: 8.8 / 10</span>
+                  </div>
+                  <p className="interview-q-text">
+                    &ldquo;Explain the four pillars of Object-Oriented Programming in Java.&rdquo;
+                  </p>
+                  <div className="interview-feedback-mini">
+                    <span>✓ Clear definitions of Encapsulation, Abstraction, Inheritance & Polymorphism</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Floating Bottom Badge */}
+              <div className="floating-badge badge-bottom">
+                <span className="badge-icon">📊</span>
+                <div>
+                  <strong>Skill Gap Identified</strong>
+                  <span>Learn Docker & Spring Boot</span>
+                </div>
               </div>
             </div>
-
-            <div className="skills-section missing">
-              <h4>Missing Skills</h4>
-
-              <div className="skills">
-                <span>Spring Boot</span>
-                <span>AWS</span>
-                <span>Docker</span>
-              </div>
-            </div>
-
-            <div className="ai-suggestion">
-              <div className="bulb">💡</div>
-
-              <div>
-                <strong>AI Suggestion</strong>
-                <p>
-                  Learning Spring Boot and AWS could improve
-                  your match for backend roles.
-                </p>
-              </div>
-            </div>
-
           </div>
-
-          <div className="floating-card card-bottom">
-            📈 Skill Gap Detected
-          </div>
-
         </div>
-
       </section>
 
-      {/* Feature Strip */}
-      <section className="feature-strip">
-
-        <div>
-          <strong>AI</strong>
-          <span>Resume Analysis</span>
-        </div>
-
-        <div>
-          <strong>🎯</strong>
-          <span>Smart Job Matching</span>
-        </div>
-
-        <div>
-          <strong>📊</strong>
-          <span>Skill Gap Analysis</span>
-        </div>
-
-        <div>
-          <strong>✨</strong>
-          <span>Career Guidance</span>
-        </div>
-
-      </section>
-
-      {/* Features */}
-      <section className="features" id="features">
-
-        <div className="section-heading">
-          <span>POWERFUL FEATURES</span>
-
-          <h2>
-            Everything You Need to
-            <br />
-            <span>Get Job Ready.</span>
-          </h2>
-
+      {/* ================= CORE FEATURES GRID ================= */}
+      <section className="features-section" id="features">
+        <div className="section-header">
+          <span className="eyebrow-text">POWERFUL AI CAPABILITIES</span>
+          <h2>Everything You Need to Get Hired</h2>
           <p>
-            From understanding your resume to preparing for interviews,
-            Matchify helps you throughout your career journey.
+            An end-to-end platform designed to help software engineers stand out to recruiters and ace every interview round.
           </p>
         </div>
 
-        <div className="feature-grid">
-
-          <div className="feature-card">
-            <div className="feature-icon">📄</div>
-            <h3>AI Resume Analysis</h3>
+        <div className="features-grid">
+          {/* Feature 1 */}
+          <div className="feature-box">
+            <div className="feature-icon-wrap">📄</div>
+            <h3>AI Resume Analyzer</h3>
             <p>
-              Automatically extract your skills, education,
-              experience and projects from your resume.
+              Upload your PDF to Cloudinary and get deep ATS compatibility scoring, automated skill extraction, and personalized career roadmaps.
             </p>
+            <Link to="/resume-analyzer" className="feature-link">
+              Analyze Resume <span>→</span>
+            </Link>
           </div>
 
-          <div className="feature-card">
-            <div className="feature-icon">🎯</div>
-            <h3>Smart Job Matching</h3>
+          {/* Feature 2 */}
+          <div className="feature-box">
+            <div className="feature-icon-wrap">💼</div>
+            <h3>Smart Job Matcher</h3>
             <p>
-              Compare your resume with job descriptions
-              using AI-powered semantic matching.
+              Compare your verified competencies against industry-standard requirements for MERN, Java, Python, and Cloud roles.
             </p>
+            <Link to="/job-matcher" className="feature-link">
+              Find Matching Jobs <span>→</span>
+            </Link>
           </div>
 
-          <div className="feature-card">
-            <div className="feature-icon">📊</div>
-            <h3>Skill Gap Analysis</h3>
+          {/* Feature 3 */}
+          <div className="feature-box">
+            <div className="feature-icon-wrap">📊</div>
+            <h3>Skill Gap Analyzer</h3>
             <p>
-              Discover which skills you already have and
-              which skills you need for a target role.
+              Pinpoint the exact missing tools, frameworks, and database concepts you need to learn to maximize your match percentage.
             </p>
+            <Link to="/skill-gap" className="feature-link">
+              View Skill Gap <span>→</span>
+            </Link>
           </div>
 
-          <div className="feature-card">
-            <div className="feature-icon">🎤</div>
-            <h3>Interview Preparation</h3>
+          {/* Feature 4 */}
+          <div className="feature-box">
+            <div className="feature-icon-wrap">🎯</div>
+            <h3>AI Interview Prep</h3>
             <p>
-              Generate personalized interview questions
-              based on your resume and target job.
+              Practice tailored Technical, HR, and Mixed interview sessions with instant AI answer evaluations, strengths, and sample answers.
             </p>
+            <Link to="/interview-prep" className="feature-link">
+              Start Practice <span>→</span>
+            </Link>
           </div>
-
         </div>
-
       </section>
 
-      {/* How It Works */}
-      <section className="how-it-works" id="how-it-works">
-
-        <div className="section-heading">
-          <span>HOW IT WORKS</span>
-
-          <h2>
-            From Resume to
-            <span> Opportunity.</span>
-          </h2>
-
+      {/* ================= HOW IT WORKS ================= */}
+      <section className="how-it-works-section" id="how-it-works">
+        <div className="section-header">
+          <span className="eyebrow-text">FOUR SIMPLE STEPS</span>
+          <h2>How CareerMatch Accelerates Your Job Search</h2>
           <p>
-            Four simple steps to move closer to your next opportunity.
+            From resume upload to final offer letter, our AI guides every step of your professional journey.
           </p>
         </div>
 
-        <div className="steps">
-
-          <div className="step">
-            <div className="step-number">01</div>
-            <div className="step-icon">↑</div>
-            <h3>Upload Resume</h3>
-            <p>
-              Upload your resume in PDF or DOCX format.
-            </p>
+        <div className="steps-container">
+          {/* Step 1 */}
+          <div className="step-card">
+            <div className="step-num">01</div>
+            <div className="step-icon">📤</div>
+            <h4>Upload Your Resume</h4>
+            <p>Securely upload your PDF resume to Cloudinary for instant PyMuPDF text parsing and indexing.</p>
           </div>
 
-          <div className="step">
-            <div className="step-number">02</div>
-            <div className="step-icon">✦</div>
-            <h3>AI Analysis</h3>
-            <p>
-              AI extracts and understands your professional profile.
-            </p>
+          {/* Step 2 */}
+          <div className="step-card">
+            <div className="step-num">02</div>
+            <div className="step-icon">🤖</div>
+            <h4>Get AI Analysis</h4>
+            <p>Review your ATS score, detected languages, frameworks, education, and career recommendations.</p>
           </div>
 
-          <div className="step">
-            <div className="step-number">03</div>
-            <div className="step-icon">⌕</div>
-            <h3>Find Matches</h3>
-            <p>
-              Compare your profile with relevant job opportunities.
-            </p>
+          {/* Step 3 */}
+          <div className="step-card">
+            <div className="step-num">03</div>
+            <div className="step-icon">🎯</div>
+            <h4>Practice Interviews</h4>
+            <p>Answer questions tailored to your resume skills and get immediate AI feedback with model answers.</p>
           </div>
 
-          <div className="step">
-            <div className="step-number">04</div>
-            <div className="step-icon">↗</div>
-            <h3>Improve & Grow</h3>
-            <p>
-              Identify skill gaps and get personalized suggestions.
-            </p>
+          {/* Step 4 */}
+          <div className="step-card">
+            <div className="step-num">04</div>
+            <div className="step-icon">🏆</div>
+            <h4>Bridge Gaps & Succeed</h4>
+            <p>Follow tailored learning paths, close your skill gaps, and step into interviews with total confidence.</p>
           </div>
-
         </div>
-
       </section>
 
-      {/* CTA */}
-      <section className="cta">
-
-        <div>
-          <span>READY TO GET STARTED?</span>
-
-          <h2>
-            Your next opportunity
-            <br />
-            starts with your resume.
-          </h2>
-
+      {/* ================= CALL TO ACTION BANNER ================= */}
+      <section className="cta-section">
+        <div className="cta-card">
+          <span className="cta-badge">GET STARTED TODAY</span>
+          <h2>Ready to Land Your Dream Tech Role?</h2>
           <p>
-            Let AI help you understand where you stand
-            and where you can go next.
+            Join thousands of candidates who analyze their resumes, sharpen their technical skills, and prepare for interviews with CareerMatch.
           </p>
 
-          <button className="primary-btn large-btn">
-            Analyze My Resume →
-          </button>
-        </div>
-
-      </section>
-
-      {/* Footer */}
-      <footer>
-
-        <div className="footer-logo">
-          <div className="logo-icon">M</div>
-          <div>
-            <h3>Matchify</h3>
-            <p>AI-powered career matching.</p>
+          <div className="cta-actions">
+            <Link to="/signup" className="cta-btn-white">
+              Create Free Account <span>→</span>
+            </Link>
+            <Link to="/resume-analyzer" className="cta-btn-trans">
+              Try Resume Analyzer
+            </Link>
           </div>
         </div>
+      </section>
 
-        <div className="footer-links">
-          <a href="#features">Features</a>
-          <a href="#how-it-works">How It Works</a>
-          <a href="#about">About</a>
-          <a href="#">GitHub</a>
-        </div>
-
-        <p className="copyright">
-          © 2026 Matchify. All rights reserved.
-        </p>
-
-      </footer>
-
+      {/* ================= REUSABLE FOOTER ================= */}
+      <Footer />
     </div>
   );
 }

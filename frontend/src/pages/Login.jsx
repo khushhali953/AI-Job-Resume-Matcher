@@ -1,194 +1,156 @@
 import { useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, useLocation } from "react-router-dom";
+import Footer from "../components/Footer";
 import "./Login.css";
 
 function Login() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const fromDestination = location.state?.from?.pathname || "/dashboard";
+  const redirectMessage = location.state?.message || "";
 
   const [formData, setFormData] = useState({
     email: "",
-    password: ""
+    password: "",
   });
 
   const [message, setMessage] = useState("");
   const [loading, setLoading] = useState(false);
 
-  // Handle input changes
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
-  // Handle form submission
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setMessage("");
 
-    // 1. Check empty fields
     if (!formData.email || !formData.password) {
       setMessage("Please fill all fields");
       return;
     }
 
     try {
-      // 2. Start loading
       setLoading(true);
 
-      // 3. Send login request to backend
-      const response = await fetch(
-        "http://localhost:5000/api/auth/login",
-        {
-          method: "POST",
+      const response = await fetch("http://localhost:5000/api/auth/login", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
 
-          headers: {
-            "Content-Type": "application/json"
-          },
-
-          // Important for HTTP-only cookie
-          credentials: "include",
-
-          body: JSON.stringify({
-            email: formData.email,
-            password: formData.password
-          })
-        }
-      );
-
-      // 4. Convert response to JSON
       const data = await response.json();
 
-      // 5. Check if login failed
       if (!response.ok) {
         setMessage(data.message || "Login failed");
         return;
       }
 
-      // 6. Login successful
-      setMessage("Login successful!");
+      localStorage.setItem("token", data.token);
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setMessage("Login successful! Redirecting...");
 
-      // 7. Go to dashboard
       setTimeout(() => {
-        navigate("/dashboard");
-      }, 1000);
-
+        navigate(fromDestination, { replace: true });
+      }, 800);
     } catch (error) {
       console.error("Login error:", error);
-
-      setMessage(
-        "Unable to connect to server. Please try again."
-      );
-
+      setMessage("Unable to connect to server. Please try again.");
     } finally {
-      // 8. Stop loading
       setLoading(false);
     }
   };
 
   return (
-    <div className="login-page">
+    <div className="login-layout-wrapper">
+      <div className="login-main-content">
+        <div className="login-card">
+          {/* Logo Header */}
+          <Link to="/" className="login-logo-link">
+            <div className="login-logo-badge">AI</div>
+            <div className="login-logo-text">
+              <span className="brand-title">CareerMatch</span>
+              <span className="brand-subtitle">AI Resume Platform</span>
+            </div>
+          </Link>
 
-      <div className="login-card">
-
-        {/* Logo */}
-        <div className="login-logo">
-
-          <div className="logo-icon">
-            M
+          <div className="login-heading">
+            <h1>Welcome Back</h1>
+            <p>Sign in to continue your career journey and interview practice.</p>
           </div>
 
-          <div>
-            <h2>Matchify</h2>
-            <span>AI Career Platform</span>
-          </div>
-
-        </div>
-
-
-        {/* Heading */}
-        <div className="login-heading">
-
-          <h1>Welcome back</h1>
-
-          <p>
-            Sign in to continue your career journey.
-          </p>
-
-        </div>
-
-
-        {/* Login Form */}
-        <form onSubmit={handleSubmit}>
-
-          {/* Email */}
-          <div className="form-group">
-
-            <label>Email</label>
-
-            <input
-              type="email"
-              name="email"
-              placeholder="you@example.com"
-              value={formData.email}
-              onChange={handleChange}
-            />
-
-          </div>
-
-
-          {/* Password */}
-          <div className="form-group">
-
-            <label>Password</label>
-
-            <input
-              type="password"
-              name="password"
-              placeholder="Enter your password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-
-          </div>
-
-
-          {/* Message */}
-          {message && (
-            <div className="login-message">
-              {message}
+          {redirectMessage && (
+            <div className="auth-alert alert-info" style={{ marginBottom: "16px", background: "#f0f7f2", border: "1px solid #cbe3cf", color: "#1f5735" }}>
+              🔒 {redirectMessage}
             </div>
           )}
 
+          <form onSubmit={handleSubmit} className="auth-form">
+            <div className="form-field">
+              <label htmlFor="email">Email Address</label>
+              <input
+                id="email"
+                type="email"
+                name="email"
+                placeholder="you@example.com"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-          {/* Login Button */}
-          <button
-            type="submit"
-            className="login-button"
-            disabled={loading}
-          >
-            {loading
-              ? "Signing In..."
-              : "Sign In →"}
-          </button>
+            <div className="form-field">
+              <label htmlFor="password">Password</label>
+              <input
+                id="password"
+                type="password"
+                name="password"
+                placeholder="Enter your password"
+                value={formData.password}
+                onChange={handleChange}
+                required
+              />
+            </div>
 
-        </form>
+            {message && (
+              <div
+                className={`auth-alert ${
+                  message.includes("successful") ? "alert-success" : "alert-error"
+                }`}
+              >
+                {message}
+              </div>
+            )}
 
+            <button
+              type="submit"
+              className="btn-auth-submit"
+              disabled={loading}
+            >
+              {loading ? "Signing In..." : "Sign In →"}
+            </button>
+          </form>
 
-        {/* Signup Link */}
-        <div className="signup-text">
-
-          Don't have an account?
-
-          <Link to="/signup">
-            Create account
-          </Link>
-
+          <div className="form-switch-row">
+            <span>Don't have an account?</span>
+            <Link to="/signup" className="switch-link">
+              Create an account
+            </Link>
+          </div>
         </div>
-
       </div>
 
+      {/* Reusable Footer on every page */}
+      <Footer />
     </div>
   );
 }

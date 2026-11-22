@@ -1,90 +1,72 @@
-/* =========================
-   Login Page
-========================= */
+/* Login.css - Green & White Modern Theme */
 
-.login-page {
+.login-layout-wrapper {
   min-height: 100vh;
   display: flex;
-  justify-content: center;
-  align-items: center;
-
-  background: #f5f8f6;
-
-  padding: 40px 20px;
+  flex-direction: column;
+  background: #f7f9f6;
+  font-family: Inter, system-ui, -apple-system, sans-serif;
 }
 
-
-/* =========================
-   Login Card
-========================= */
+.login-main-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px 24px;
+}
 
 .login-card {
   width: 100%;
   max-width: 440px;
-
   background: #ffffff;
-
-  padding: 40px;
-
-  border-radius: 20px;
-
-  box-shadow: 0 10px 35px rgba(0, 0, 0, 0.08);
-
-  border: 1px solid #e8eee9;
+  border: 1px solid #dbe8dd;
+  border-radius: 24px;
+  padding: 44px 38px;
+  box-shadow: 0 16px 40px rgba(40, 107, 67, 0.08);
 }
 
-
-/* =========================
-   Logo
-========================= */
-
-.login-logo {
+.login-logo-link {
   display: flex;
   align-items: center;
   gap: 12px;
-
-  margin-bottom: 35px;
+  text-decoration: none;
+  margin-bottom: 28px;
 }
 
-.logo-icon {
-  width: 45px;
-  height: 45px;
-
+.login-logo-badge {
+  width: 40px;
+  height: 40px;
+  background: #286b43;
+  color: #ffffff;
+  font-weight: 800;
+  font-size: 16px;
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background: #2f8f5b;
-  color: white;
-
-  border-radius: 12px;
-
-  font-size: 22px;
-  font-weight: 700;
+  border-radius: 10px;
+  box-shadow: 0 4px 12px rgba(40, 107, 67, 0.25);
 }
 
-.login-logo h2 {
-  margin: 0;
-
-  color: #1f2933;
-
-  font-size: 22px;
+.login-logo-text {
+  display: flex;
+  flex-direction: column;
 }
 
-.login-logo span {
-  display: block;
-
-  margin-top: 2px;
-
-  color: #7a858c;
-
-  font-size: 12px;
+.login-logo-text .brand-title {
+  font-size: 20px;
+  font-weight: 800;
+  color: #173824;
+  line-height: 1.2;
 }
 
-
-/* =========================
-   Heading
-========================= */
+.login-logo-text .brand-subtitle {
+  font-size: 11px;
+  font-weight: 600;
+  color: #286b43;
+  letter-spacing: 0.6px;
+  text-transform: uppercase;
+}
 
 .login-heading {
   margin-bottom: 28px;
@@ -92,191 +74,123 @@
 
 .login-heading h1 {
   margin: 0 0 8px;
-
-  color: #1f2933;
-
-  font-size: 30px;
-  font-weight: 700;
+  font-size: 28px;
+  font-weight: 800;
+  color: #173824;
+  letter-spacing: -0.5px;
 }
 
 .login-heading p {
   margin: 0;
-
-  color: #7a858c;
-
-  font-size: 14px;
-
-  line-height: 1.6;
+  font-size: 14.5px;
+  color: #637767;
+  line-height: 1.5;
 }
 
-
-/* =========================
-   Form
-========================= */
-
-.form-group {
-  margin-bottom: 20px;
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
 }
 
-.form-group label {
-  display: block;
-
-  margin-bottom: 8px;
-
-  color: #374151;
-
-  font-size: 14px;
-  font-weight: 600;
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
+.form-field label {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #1a3323;
+}
 
-/* =========================
-   Input
-========================= */
-
-.form-group input {
+.form-field input {
   width: 100%;
-
-  box-sizing: border-box;
-
-  padding: 13px 14px;
-
-  border: 1px solid #d8e1db;
-
-  border-radius: 10px;
-
-  background: #fbfcfb;
-
-  color: #1f2933;
-
-  font-size: 14px;
-
+  padding: 13px 16px;
+  border: 1.5px solid #d5e5d7;
+  border-radius: 12px;
+  font-size: 14.5px;
+  color: #173824;
+  background: #fdfefe;
   outline: none;
-
-  transition: 0.2s ease;
+  transition: all 0.2s ease;
+  box-sizing: border-box;
 }
 
-.form-group input::placeholder {
-  color: #a3aca7;
-}
-
-.form-group input:focus {
-  border-color: #2f8f5b;
-
+.form-field input:focus {
+  border-color: #286b43;
   background: #ffffff;
-
-  box-shadow: 0 0 0 3px rgba(47, 143, 91, 0.1);
+  box-shadow: 0 0 0 3px rgba(40, 107, 67, 0.12);
 }
 
-
-/* =========================
-   Message
-========================= */
-
-.login-message {
-  margin-bottom: 18px;
-
-  padding: 11px 13px;
-
-  border-radius: 8px;
-
-  background: #eef8f1;
-
-  color: #267347;
-
-  font-size: 13px;
-
-  text-align: center;
+.form-field input::placeholder {
+  color: #9cb1a0;
 }
 
-
-/* =========================
-   Login Button
-========================= */
-
-.login-button {
-  width: 100%;
-
-  padding: 14px;
-
-  border: none;
-
+.auth-alert {
+  padding: 12px 14px;
   border-radius: 10px;
+  font-size: 13.5px;
+  font-weight: 600;
+}
 
-  background: #2f8f5b;
+.alert-success {
+  background: #eaf5ec;
+  border: 1px solid #cbe3cf;
+  color: #205c33;
+}
 
-  color: white;
+.alert-error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
 
+.btn-auth-submit {
+  width: 100%;
+  background: #286b43;
+  color: #ffffff;
+  border: none;
+  padding: 15px;
+  border-radius: 12px;
   font-size: 15px;
-
-  font-weight: 600;
-
+  font-weight: 700;
   cursor: pointer;
-
-  transition: 0.2s ease;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 14px rgba(40, 107, 67, 0.2);
+  margin-top: 8px;
 }
 
-.login-button:hover {
-  background: #267a4c;
-
+.btn-auth-submit:hover:not(:disabled) {
+  background: #1f5735;
   transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(40, 107, 67, 0.3);
 }
 
-.login-button:disabled {
-  background: #9bbba7;
-
+.btn-auth-submit:disabled {
+  background: #a2c7ad;
   cursor: not-allowed;
-
-  transform: none;
+  box-shadow: none;
 }
 
-
-/* =========================
-   Signup Link
-========================= */
-
-.signup-text {
-  margin-top: 25px;
-
+.form-switch-row {
+  margin-top: 24px;
   text-align: center;
-
-  color: #7a858c;
-
   font-size: 14px;
+  color: #637767;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
 }
 
-.signup-text a {
-  margin-left: 5px;
-
-  color: #2f8f5b;
-
-  font-weight: 600;
-
+.switch-link {
+  color: #286b43;
   text-decoration: none;
+  font-weight: 700;
 }
 
-.signup-text a:hover {
+.switch-link:hover {
   text-decoration: underline;
-}
-
-
-/* =========================
-   Responsive
-========================= */
-
-@media (max-width: 500px) {
-
-  .login-page {
-    padding: 20px 15px;
-  }
-
-  .login-card {
-    padding: 30px 22px;
-
-    border-radius: 16px;
-  }
-
-  .login-heading h1 {
-    font-size: 26px;
-  }
 }

@@ -5,7 +5,8 @@ const cors = require("cors");
 require("dotenv").config();
 
 const authRoutes = require("./routes/authRoutes");
-
+const resumeRoutes = require("./routes/resumeRoutes");
+const interviewRoutes = require("./routes/interviewRoutes");
 const app = express();
 
 // Middleware
@@ -20,7 +21,8 @@ app.use(cookieParser());
 
 // Routes
 app.use("/api/auth", authRoutes);
-
+app.use("/api/resumes", resumeRoutes);
+app.use("/api/interview", interviewRoutes);
 // Test route
 app.get("/", (req, res) => {
   res.json({

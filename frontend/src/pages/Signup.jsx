@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import Footer from "../components/Footer";
 import "./Signup.css";
 
 function Signup() {
@@ -9,7 +10,7 @@ function Signup() {
     name: "",
     email: "",
     password: "",
-    confirmPassword: ""
+    confirmPassword: "",
   });
 
   const [message, setMessage] = useState("");
@@ -18,13 +19,12 @@ function Signup() {
   const handleChange = (e) => {
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value
+      [e.target.name]: e.target.value,
     });
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
     setMessage("");
 
     if (
@@ -50,21 +50,18 @@ function Signup() {
     try {
       setLoading(true);
 
-      const response = await fetch(
-        "http://localhost:5000/api/auth/signup",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json"
-          },
-          credentials: "include",
-          body: JSON.stringify({
-            name: formData.name,
-            email: formData.email,
-            password: formData.password
-          })
-        }
-      );
+      const response = await fetch("http://localhost:5000/api/auth/signup", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        credentials: "include",
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
 
       const data = await response.json();
 
@@ -72,122 +69,164 @@ function Signup() {
         setMessage(data.message || "Signup failed");
         return;
       }
-      
-      setMessage("Account created successfully!");
 
-      // Go to dashboard after signup
+      // Save token and user info for Dashboard
+      if (data.token) {
+        localStorage.setItem("token", data.token);
+      }
+      localStorage.setItem("user", JSON.stringify(data.user));
+      setMessage("Account created successfully! Redirecting...");
+
       setTimeout(() => {
         navigate("/dashboard");
       }, 1000);
-
     } catch (error) {
       console.error(error);
-      setMessage(
-        "Unable to connect to server. Please try again."
-      );
+      setMessage("Unable to connect to server. Please try again.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="signup-page">
+    <div className="signup-layout-wrapper">
+      <div className="signup-main-content">
+        <div className="signup-container-card">
+          {/* Left Hero / Brand Perks Column */}
+          <div className="signup-brand-panel">
+            <Link to="/" className="signup-brand-logo">
+              <div className="signup-logo-badge">AI</div>
+              <div className="signup-logo-text">
+                <span className="brand-name">CareerMatch</span>
+                <span className="brand-sub">AI Resume Platform</span>
+              </div>
+            </Link>
 
-      <div className="signup-card">
-
-        <div className="signup-logo">
-          <div className="logo-icon">M</div>
-
-          <div>
-            <h2>Matchify</h2>
-            <span>AI Career Platform</span>
-          </div>
-        </div>
-
-        <div className="signup-heading">
-          <h1>Create your account</h1>
-
-          <p>
-            Start your journey toward the right opportunity.
-          </p>
-        </div>
-
-        <form onSubmit={handleSubmit}>
-
-          <div className="form-group">
-            <label>Full Name</label>
-
-            <input
-              type="text"
-              name="name"
-              placeholder="Enter your name"
-              value={formData.name}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Email</label>
-
-            <input
-              type="email"
-              name="email"
-              placeholder="you@example.com"
-              value={formData.email}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Password</label>
-
-            <input
-              type="password"
-              name="password"
-              placeholder="Create a password"
-              value={formData.password}
-              onChange={handleChange}
-            />
-          </div>
-
-          <div className="form-group">
-            <label>Confirm Password</label>
-
-            <input
-              type="password"
-              name="confirmPassword"
-              placeholder="Confirm your password"
-              value={formData.confirmPassword}
-              onChange={handleChange}
-            />
-          </div>
-
-          {message && (
-            <div className="signup-message">
-              {message}
+            <div className="brand-quote">
+              <h2>Join the AI-powered career platform.</h2>
+              <p>
+                Accelerate your job search with intelligent resume scoring, personalized skill gap roadmaps, and realistic technical interview preparation.
+              </p>
             </div>
-          )}
 
-          <button
-            type="submit"
-            className="signup-button"
-            disabled={loading}
-          >
-            {loading ? "Creating Account..." : "Create Account →"}
-          </button>
+            <div className="brand-perks-list">
+              <div className="perk-item">
+                <span className="perk-icon">⚡</span>
+                <div>
+                  <strong>ATS Resume Scoring</strong>
+                  <p>Direct PyMuPDF parsing with Cloudinary cloud storage.</p>
+                </div>
+              </div>
 
-        </form>
+              <div className="perk-item">
+                <span className="perk-icon">🎯</span>
+                <div>
+                  <strong>AI Interview Preparation</strong>
+                  <p>Practice OOP, system design, and behavioral questions with instant AI scoring.</p>
+                </div>
+              </div>
 
-        <div className="login-text">
-          Already have an account?
+              <div className="perk-item">
+                <span className="perk-icon">📊</span>
+                <div>
+                  <strong>Skill Gap Analysis</strong>
+                  <p>Compare against industry job standards for MERN, Java, and Python roles.</p>
+                </div>
+              </div>
+            </div>
+          </div>
 
-          <Link to="/login">
-            Sign in
-          </Link>
+          {/* Right Form Column */}
+          <div className="signup-form-panel">
+            <div className="form-header">
+              <h1>Create Your Account</h1>
+              <p>Start your personalized career preparation in less than 2 minutes.</p>
+            </div>
+
+            <form onSubmit={handleSubmit} className="auth-form">
+              <div className="form-field">
+                <label htmlFor="name">Full Name</label>
+                <input
+                  id="name"
+                  type="text"
+                  name="name"
+                  placeholder="e.g. Khushhali Sharma"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="email">Email Address</label>
+                <input
+                  id="email"
+                  type="email"
+                  name="email"
+                  placeholder="you@example.com"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="password">Password</label>
+                <input
+                  id="password"
+                  type="password"
+                  name="password"
+                  placeholder="At least 6 characters"
+                  value={formData.password}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              <div className="form-field">
+                <label htmlFor="confirmPassword">Confirm Password</label>
+                <input
+                  id="confirmPassword"
+                  type="password"
+                  name="confirmPassword"
+                  placeholder="Re-enter your password"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
+
+              {message && (
+                <div
+                  className={`auth-alert ${
+                    message.includes("success") ? "alert-success" : "alert-error"
+                  }`}
+                >
+                  {message}
+                </div>
+              )}
+
+              <button
+                type="submit"
+                className="btn-auth-submit"
+                disabled={loading}
+              >
+                {loading ? "Creating Account..." : "Create Account →"}
+              </button>
+            </form>
+
+            <div className="form-switch-row">
+              <span>Already have an account?</span>
+              <Link to="/login" className="switch-link">
+                Sign in
+              </Link>
+            </div>
+          </div>
         </div>
-
       </div>
 
+      {/* Reusable Footer on every page */}
+      <Footer />
     </div>
   );
 }
